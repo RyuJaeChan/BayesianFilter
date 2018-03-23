@@ -1,4 +1,4 @@
-__all__ = ["leaning", "prediction"]
+__all__ = ["learning", "prediction"]
 
-from .leaning import *
+from .learning import *
 from .prediction import *

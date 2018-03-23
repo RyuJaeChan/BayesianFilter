@@ -9,8 +9,14 @@ class BayesianFilter:
 
     def __word_split(self, text):
         print('word split call')
-        
+        word_list = []
+        words = Twitter().pos(text, norm=True, stem=True)
+        for word in words:
+            if not word[1] in ["Josa", "Eomi", "Punctuation"]:
+                word_list.append(word[0])
+        return word_list
 
-
-    def leaning(self, text):
+    def learning(self, text):
         word_list = self.__word_split(text)
+        for w in word_list:
+            print(w)

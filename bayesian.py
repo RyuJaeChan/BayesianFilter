@@ -7,7 +7,6 @@ class BayesianFilter:
         self.word_freq = {}         #특정 라벨에 나타난 단어의 빈도
         self.data_dir = "./data/"   #가중치(?) 데이터를 저장할 경로
 
-
     # __word_split
     #   private
     #   @ 문장을 입력받아 단어들의 리스트로 변환
@@ -24,8 +23,6 @@ class BayesianFilter:
                 word_list.append(word[0])
         return word_list
 
-
-
     # Learning
     #   public
     #   @ 문장과 라벨을 입력받아 학습한다.
@@ -38,16 +35,22 @@ class BayesianFilter:
         if not label in self.label_cnt:                #라벨 추가
             self.label_cnt[label] = 0
         self.label_cnt[label] += 1
+        if not label in self.word_freq:
+            self.word_freq[label] = {}
+
         word_list = self.__word_split(text)
         for w in word_list:
             self.word_set.add(w)                       #단어 집합에 추가
+
+
+
             if not w in self.word_freq[label]:         #해당 라벨에 속한 단어에 추가
                 self.word_freq[label][w] = 0
             self.word_freq[label][w] += 1
 
 
     def __calculate_label_cnt(self, label):
-        return self.label_cnt[label] / sum(self.label_cnt.values)
+        return self.label_cnt[label] / sum(self.label_cnt.values())
     def __calculate_word_freq(self, word, label):
         val = 1;
         if word in self.word_freq[label]:
@@ -69,8 +72,7 @@ class BayesianFilter:
                 high_score = score
                 result_label = label
 
-        return label
-
+        return result_label
 
 
     def __save_file(self):

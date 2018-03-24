@@ -1,31 +1,45 @@
 from bayesian import BayesianFilter
+import json, sys
 
 
 
 
 
 
-def test():
-    bf = BayesianFilter()
-    bf.Learning("오늘 날씨 어때", "오늘날씨")
-    bf.Learning("오늘 기상정보", "오늘날씨")
-    bf.Learning("기상정보", "오늘날씨")
-    bf.Learning("오늘 기상", "오늘날씨")
-    bf.Learning("오늘 기온이 어때", "오늘날씨")
-    bf.Learning("지금 몇시야", "오늘날씨")
-    bf.Learning("몇시지", "오늘날씨")
-    bf.Learning("현재 시간", "현재시간")
-    bf.Learning("현재 몇시 몇분이야", "현재시간")
 
-    q = "오늘 날씨가 어떨까"
-    result = bf.predict(q)
+def Learning():
+    bf = BayesianFilter("Learning")
+    f = open("./learning_data/input.txt", "r")
+    lines = f.readlines()
+    for line in lines:
+        s = line.rstrip().split('$')
+        bf.Learning(s[0],s[1])
+    bf.Save_data()
+
+
+def Predict():
+    bf = BayesianFilter("Predict")
+    q = "지금 기상이 어때"
     print(q)
-    print(result)
+    print(">> ", bf.Predict(q))
+
 
 def ptest():
-    dic = {"f" : {"ff" : 1, "fff" : 2}}
-    if not "ffff" in dic["f"]:
-        dic["f"]["ffff"] = 0
+    dic = {}
+
+    w_data = open("./w_data/w_data.json").read()
+    data = json.loads(w_data)
+
+
+    l_data = data["label_cnt"]["오늘날씨"]
+
+    dic = data["label_cnt"]
+    print(dic)
+
 
 if __name__ =="__main__":
-    test()
+
+    if sys.argv[1] == "test":
+        Learning()
+    else:
+        Predict()

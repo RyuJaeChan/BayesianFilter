@@ -9,7 +9,7 @@ class BayesianFilter:
         self.label_cnt = {}         #학습한 라벨의 종류와 횟수 Key : label name, Value : count
         #self.word_set = set()       #학습한 단어들 집합
         self.word_freq = {}         #특정 라벨에 나타난 단어의 빈도
-        self.data_dir = "./w_data/"   #가중치(?) 데이터를 저장할 경로
+        self.data_dir = "./BayesianFilter/w_data/"   #가중치(?) 데이터를 저장할 경로
         if type == "Learning":
             print('<< learing mode >>')
         elif type == "Predict":

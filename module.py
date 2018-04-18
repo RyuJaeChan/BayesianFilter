@@ -1,11 +1,5 @@
-from bayesian import BayesianFilter
-import json, sys
-
-
-
-
-
-
+from .bayesian import BayesianFilter
+import json, sys, os
 
 def Learning():
     bf = BayesianFilter("Learning")
@@ -16,29 +10,14 @@ def Learning():
         bf.Learning(s[0],s[1])
     bf.Save_data()
 
-
-def Predict():
+def Predict(command):
     bf = BayesianFilter("Predict")
-    q = "지금 기상이 어때"
-    print(q)
-    print(">> ", bf.Predict(q))
-
-
-def ptest():
-    dic = {}
-
-    w_data = open("./w_data/w_data.json").read()
-    data = json.loads(w_data)
-
-
-    l_data = data["label_cnt"]["오늘날씨"]
-
-    dic = data["label_cnt"]
-    print(dic)
-
+    res = bf.Predict(command)
+    print('command : ' + command)
+    print(">> result", res)
+    return res
 
 if __name__ =="__main__":
-
     if sys.argv[1] == "test":
         Learning()
     else:

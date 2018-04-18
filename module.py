@@ -1,4 +1,4 @@
-from .bayesian import BayesianFilter
+from bayesian import BayesianFilter
 import json, sys, os
 
 def Learning():
@@ -21,4 +21,4 @@ if __name__ =="__main__":
     if sys.argv[1] == "test":
         Learning()
     else:
-        Predict()
+        Predict(sys.argv[1])

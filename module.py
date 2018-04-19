@@ -14,7 +14,7 @@ def Predict(command):
     bf = BayesianFilter("Predict")
     res = bf.Predict(command)
     print('command : ' + command)
-    print(">> result", res)
+    print(">> result : ", res)
     return res
 
 if __name__ =="__main__":

@@ -103,7 +103,9 @@ class BayesianFilter:
             if score > high_score :
                 high_score = score
                 result_label = label
-        if high_score < -5:
+        print('predicted label : ' + result_label)
+        print('score : ' + str(score))
+        if high_score < -6:
             result_label = "잘 모르는 내용입니다. 다시 말씀해 주세요."
         return result_label
 

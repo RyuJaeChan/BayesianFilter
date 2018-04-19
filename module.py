@@ -18,7 +18,7 @@ def Predict(command):
     return res
 
 if __name__ =="__main__":
-    if sys.argv[1] == "test":
+    if sys.argv[1] == "learning":
         Learning()
     else:
         Predict(sys.argv[1])

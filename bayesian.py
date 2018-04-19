@@ -99,8 +99,8 @@ class BayesianFilter:
         result_label = ""
         word_list = self.__word_split(text)
         for label in self.label_cnt.keys():
+            score = self.__calculate_score(word_list, label)
             if score > high_score :
-                score = self.__calculate_score(word_list, label)
                 high_score = score
                 result_label = label
         if high_score < -5:

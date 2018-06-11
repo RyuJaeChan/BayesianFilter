@@ -1,5 +1,5 @@
 from bayesian import BayesianFilter
-import os
+import os, sys
 
 def Learning():
     bf = BayesianFilter("Learning");
@@ -19,10 +19,15 @@ if __name__ =="__main__":
     label = ""
     bf = BayesianFilter("Learning");
     files = os.listdir("./learning_data")
+
+    if len(sys.argv) < 2:
+        print(">> input directory")
+
+
     for file in files :
         full_name = os.path.join("./learning_data", file)
         label = file.split('.')[0]
         print(label)
         bf.ReadFile_And_Learn(label, full_name)
-    bf.Save_data()
+    bf.Save_data(sys.argv[1])
     #bf.Learning(label, file_path)

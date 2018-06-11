@@ -154,10 +154,10 @@ class BayesianFilter:
     #       - NONE
     #   return
     #       - NONE
-    def Save_data(self):
+    def Save_data(self, file_dir):
         #디렉토리 생성
-        if not os.path.exists(self.data_dir):
-            os.mkdir(self.data_dir)
+        if not os.path.exists(file_dir):
+            os.mkdir(file_dir)
         result_data = "{ \"label_cnt\" : " + json.dumps(self.label_cnt, ensure_ascii=False) + ", \"word_freq\" : " + json.dumps(self.word_freq, ensure_ascii=False) + " }"
-        with open(self.data_dir + "w_data.json", "w") as f:
+        with open(file_dir + "w_data.json", "w") as f:
             f.write(result_data)

@@ -15,17 +15,18 @@ def Predict(command):
     return res
 
 if __name__ =="__main__":
-    file_path = ""
+    file_path = os.path.dirname(__file__)+ "/learning_data"
     label = ""
     bf = BayesianFilter("Learning");
-    files = os.listdir("./learning_data")
+    files = os.listdir(file_path)
+    print(file_path)
 
     if len(sys.argv) < 2:
         print(">> input directory")
 
 
     for file in files :
-        full_name = os.path.join("./learning_data", file)
+        full_name = os.path.join(file_path, file)
         label = file.split('.')[0]
         print(label)
         bf.ReadFile_And_Learn(label, full_name)

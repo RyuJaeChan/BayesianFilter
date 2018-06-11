@@ -15,7 +15,12 @@ def Predict(command):
     return res
 
 if __name__ =="__main__":
-    file_path = os.path.dirname(__file__)+ "/learning_data"
+
+    file_path = os.path.dirname(__file__)
+    if file_path == "":
+        file_path += "."
+    file_path += "/learning_data"
+    print(file_path)
     label = ""
     bf = BayesianFilter("Learning");
     files = os.listdir(file_path)

@@ -2,14 +2,13 @@ from konlpy.tag import Twitter
 import os, math, json
 class BayesianFilter:
     """
-
     word_set 안써도 되는건가 모르겠네
     """
     def __init__(self, type):
         self.label_cnt = {}         #학습한 라벨의 종류와 횟수 Key : label name, Value : count
         #self.word_set = set()       #학습한 단어들 집합
         self.word_freq = {}         #특정 라벨에 나타난 단어의 빈도
-        self.data_dir = "./BayesianFilter/w_data/"   #가중치(?) 데이터를 저장할 경로
+        self.data_dir = "./"   #가중치(?) 데이터를 저장할 경로
         if type == "Learning":
             print('<< learing mode >>')
         elif type == "Predict":
@@ -30,6 +29,22 @@ class BayesianFilter:
             if not word[1] in ["Josa", "Eomi", "Punctuation"]:
                 word_list.append(word[0])
         return word_list
+
+    # ReadFile_And_Learn
+    #   public
+    #   @ 학습할 문장들과 라벨이 저장된 파일을 읽고 학습을 실시한다.
+    #   @ 파일 읽기 예외처리 추가해야함
+    #
+    #   input
+    #       - file_name         : 학습할 텍스트 파일명
+    #   return
+    #       - NONE
+    def ReadFile_And_Learn(self, label, file_name):
+        f = open(file_name, "r")
+        lines = f.readlines()
+        for line in lines:
+            #s = line.rstrip().split('$')
+            self.Learning(line,label)
 
     # Learning
     #   public
@@ -84,8 +99,8 @@ class BayesianFilter:
     #   @ 단어 리스트와 라벨을 입력받아 해당 라벨의 점수를 계산함
     #
     #   input
-    #       - word_list     :
-    #       - label         :
+    #       - word_list     : 점수를 확인할 문장의 단어 리스트
+    #       - label         : 검사할 라벨
     #   return
     #       -
     def __calculate_score(self, word_list, label):
@@ -94,6 +109,15 @@ class BayesianFilter:
             score += math.log(self.__calculate_word_freq(w, label))
         return score
 
+
+    # Predict
+    #   public
+    #   @ 입력 텍스트의 라벨의 점수를 계산하여 해당하는 라벨을 선택한다.
+    #
+    #   input
+    #       - text      : 검사할 문장
+    #   return
+    #       - 검사 결과 점수가 가장 높은 라벨
     def Predict(self, text):
         high_score = -9999
         result_label = ""
@@ -109,17 +133,31 @@ class BayesianFilter:
             result_label = "잘 모르는 내용입니다. 다시 말씀해 주세요."
         return result_label
 
+    # __load_data
+    #   private
+    #   @ 저장된 w_data를 불러온다.
+    #
+    #   input
+    #       - NONE
+    #   return
+    #       - NONE
     def __load_data(self):
         json_data = open(self.data_dir + "w_data.json").read()
         data = json.loads(json_data)
         self.label_cnt = data["label_cnt"]
         self.word_freq = data["word_freq"]
-
+    # Save_data
+    #   public
+    #   @ 학습한 결과 생성된 w_data를 저장한다.
+    #
+    #   input
+    #       - NONE
+    #   return
+    #       - NONE
     def Save_data(self):
         #디렉토리 생성
         if not os.path.exists(self.data_dir):
             os.mkdir(self.data_dir)
-
         result_data = "{ \"label_cnt\" : " + json.dumps(self.label_cnt, ensure_ascii=False) + ", \"word_freq\" : " + json.dumps(self.word_freq, ensure_ascii=False) + " }"
         with open(self.data_dir + "w_data.json", "w") as f:
             f.write(result_data)

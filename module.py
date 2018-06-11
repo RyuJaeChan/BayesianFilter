@@ -1,14 +1,11 @@
 from bayesian import BayesianFilter
-import json, sys, os
+import os
 
 def Learning():
-    bf = BayesianFilter("Learning")
-    f = open("./learning_data/input.txt", "r")
-    lines = f.readlines()
-    for line in lines:
-        s = line.rstrip().split('$')
-        bf.Learning(s[0],s[1])
+    bf = BayesianFilter("Learning");
+    bf.ReadFile_And_Learn("./learning_data/input.txt")
     bf.Save_data()
+
 
 def Predict(command):
     bf = BayesianFilter("Predict")
@@ -18,7 +15,14 @@ def Predict(command):
     return res
 
 if __name__ =="__main__":
-    if sys.argv[1] == "learning":
-        Learning()
-    else:
-        Predict(sys.argv[1])
+    file_path = ""
+    label = ""
+    bf = BayesianFilter("Learning");
+    files = os.listdir("./learning_data")
+    for file in files :
+        full_name = os.path.join("./learning_data", file)
+        label = file.split('.')[0]
+        print(label)
+        bf.ReadFile_And_Learn(label, full_name)
+    bf.Save_data()
+    #bf.Learning(label, file_path)
